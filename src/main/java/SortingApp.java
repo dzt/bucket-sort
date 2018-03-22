@@ -68,7 +68,7 @@ public class SortingApp extends JFrame {
         table.setRowHeight(93);
         table.getColumnModel().getColumn(0).setPreferredWidth(45);
         table.getColumnModel().getColumn(1).setPreferredWidth(35);
-        table.getColumnModel().getColumn(2).setPreferredWidth(45);
+        table.getColumnModel().getColumn(2).setPreferredWidth(55);
         table.getColumnModel().getColumn(3).setPreferredWidth(150);
         table.getColumnModel().getColumn(4).setPreferredWidth(150);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
