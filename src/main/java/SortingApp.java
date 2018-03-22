@@ -12,6 +12,21 @@ import java.util.ArrayList;
 
 public class SortingApp extends JFrame {
 
+
+    static class ActiveComboItem {
+        private final Object item;
+
+        public ActiveComboItem(Object item) { this.item = item; }
+
+        @Override
+        public boolean equals(Object other) {
+            return item == null ? other == null : item.equals(other);
+        }
+
+        @Override
+        public String toString() { return String.format("Animal: %s", item); }
+    }
+
     DefaultTableModel model = new DefaultTableModel();
     JComboBox combo;
 
@@ -35,23 +50,35 @@ public class SortingApp extends JFrame {
         setLayout(null);
         setResizable(false);
 
-        final String[] comboOptions = { "Top 100 Data", "Graph" };
+        final JScrollPane scroll = new JScrollPane(table);
+
+        final String[] comboOptions = { "Top 100 Data (1-100)", "Top 100 Data (Weekly Appearance)", "Graph" };
         JComboBox combo = new JComboBox(comboOptions);
-        combo.setBounds(300, 25, 150, 20);
 
-        combo.setModel(new DefaultComboBoxModel(comboOptions) {
-            private Object selected;
+        // Position based off of center position minus half of the width.
+        combo.setBounds(375 - 125, 25, 250, 20);
 
-            public void setSelectedItem(Object anItem) {
-                selected = anItem;
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                ItemSelectable is = (ItemSelectable)actionEvent.getSource();
+                String selectedItem = (String) is.getSelectedObjects()[0];
+
+                if (selectedItem.equalsIgnoreCase("graph")) {
+                    table.setVisible(false);
+                    scroll.setVisible(false);
+                } else if (selectedItem.equalsIgnoreCase("Top 100 Data (Weekly Appearance)")) {
+                    table.setVisible(true);
+                    scroll.setVisible(true);
+                } else {
+                    table.setVisible(true);
+                    scroll.setVisible(true);
+                }
+
             }
+        };
 
-//            public Object getSelectedItem() {
-//                return new ActiveComboItem(selected);
-//            }
-        });
-
-        JScrollPane scroll = new JScrollPane(table);
+        combo.addActionListener(actionListener);
 
         scroll.setBounds(25, 60, 700, 480);
 

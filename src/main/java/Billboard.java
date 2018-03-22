@@ -73,14 +73,9 @@ public class Billboard {
                     image = "https://assets.billboard.com/assets/1520627229/images/chart-row-placeholder.jpg";
                 }
 
-
                 int ranking = i + 1;
                 int peakPos = Integer.parseInt(peakRanks.get(i).select("span.chart-row__value").get(0).text());
                 int weeks = Integer.parseInt(weeklyRanks.get(i).select("span.chart-row__value").get(0).text());
-
-                System.out.println(artist);
-                System.out.println(songName + " #" + ranking + " / Peak: " + peakPos + " / Weeks: " + weeks);
-                System.out.println(image + "\n");
 
                 arr.add(new Song(songName, artist, image, ranking, peakPos, weeks));
 
