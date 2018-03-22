@@ -1,3 +1,10 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class Song {
 
     private String name, artist, imageURL;
@@ -33,6 +40,33 @@ public class Song {
 
     public String getArtist() {
         return this.artist;
+    }
+
+    public int getWeeklyCount() {
+        return this.weeks;
+    }
+
+    public ImageIcon getImage() {
+
+        ImageIcon img = new ImageIcon();
+
+        try {
+
+            URL url = new URL(this.imageURL);
+            img = new ImageIcon(ImageIO.read(url));
+            Image image = img.getImage();
+            Image newimg = image.getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            img = new ImageIcon(newimg);
+
+            return img;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+
     }
 
 }
