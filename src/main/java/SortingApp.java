@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,14 +30,14 @@ public class SortingApp extends JFrame {
     public SortingApp() {
 
         setTitle("Billboard App");
-        setSize(750,600);
+        setSize(750, 630);
         setLocation(new Point(250,250));
         setLayout(null);
         setResizable(false);
 
         final String[] comboOptions = { "Top 100 Data", "Graph" };
         JComboBox combo = new JComboBox(comboOptions);
-        combo.setBounds(300,25,150,20);
+        combo.setBounds(300, 25, 150, 20);
 
         combo.setModel(new DefaultComboBoxModel(comboOptions) {
             private Object selected;
@@ -50,7 +53,7 @@ public class SortingApp extends JFrame {
 
         JScrollPane scroll = new JScrollPane(table);
 
-        scroll.setBounds(25,60,700,480);
+        scroll.setBounds(25, 60, 700, 480);
 
         add(combo);
         add(scroll);
@@ -75,7 +78,24 @@ public class SortingApp extends JFrame {
         table.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
         table.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
 
+        JMenuBar menubar = new JMenuBar();
+        JMenu mainMenu = new JMenu("Billboard");
 
+        JMenuItem refresh = new JMenuItem("Refresh", KeyEvent.VK_R);
+        refresh.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_R, ActionEvent.ALT_MASK));
+        refresh.setToolTipText("Reload Billboard Chart Data");
+        refresh.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent event) {
+                // TODO: Refresh Method
+            }
+
+        });
+
+        mainMenu.add(refresh);
+        menubar.add(mainMenu);
+        setJMenuBar(menubar);
         setupTable();
 
     }
