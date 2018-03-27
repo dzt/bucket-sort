@@ -27,6 +27,8 @@ public class SortingApp extends JFrame {
         public String toString() { return String.format("Animal: %s", item); }
     }
 
+    ArrayList<Song> songs = new ArrayList<Song>();
+    ArrayList<Song> sortedSongs = new ArrayList<Song>();
     DefaultTableModel model = new DefaultTableModel();
     JComboBox combo;
 
@@ -68,9 +70,72 @@ public class SortingApp extends JFrame {
                     table.setVisible(false);
                     scroll.setVisible(false);
                 } else if (selectedItem.equalsIgnoreCase("Top 100 Data (Weekly Appearance)")) {
+
+                    /* Delete all the rows */
+                    if (model.getRowCount() > 0) {
+                        for (int i = model.getRowCount() - 1; i > -1; i--) {
+                            model.removeRow(i);
+                        }
+                    }
+
+                    /* Get the numbers for the weekly stats */
+
+                    int sequence[] = new int[songs.size()];
+                    int maxValue = 0;
+
+                    for (int i = 0; i < songs.size(); i++) {
+                        sequence[i] = songs.get(i).getWeeklyCount();
+                    }
+
+
+                    maxValue = Bucket.maxValue(sequence);
+                    sequence = Bucket.sort(sequence, maxValue);
+
+                    /* Reverse Loop to Append Values to Table */
+                    for (int i = (sequence.length - 1); i > 0; i--) {
+
+                        int numberToFind = sequence[i];
+
+                        for (int j = 0; j < songs.size(); j++) {
+                            if (songs.get(j).getWeeklyCount() == numberToFind && !sortedSongs.contains(songs.get(j))) {
+                                sortedSongs.add(songs.get(j));
+                            }
+                        }
+
+                    }
+
+                    for (Song song: sortedSongs) {
+                        model.addRow(new Object[]{
+                                song.getImage(),
+                                song.getRank(),
+                                song.getWeeklyCount(),
+                                song.getArtist(),
+                                song.getName()
+                        });
+                    }
+
                     table.setVisible(true);
                     scroll.setVisible(true);
+
                 } else {
+
+                    /* Delete all the rows */
+                    if (model.getRowCount() > 0) {
+                        for (int i = model.getRowCount() - 1; i > -1; i--) {
+                            model.removeRow(i);
+                        }
+                    }
+
+                    for (Song song: songs) {
+                        model.addRow(new Object[]{
+                                song.getImage(),
+                                song.getRank(),
+                                song.getWeeklyCount(),
+                                song.getArtist(),
+                                song.getName()
+                        });
+                    }
+
                     table.setVisible(true);
                     scroll.setVisible(true);
                 }
@@ -130,7 +195,6 @@ public class SortingApp extends JFrame {
     public void setupTable() {
 
         Billboard billboard = new Billboard("https://www.billboard.com/charts/hot-100");
-        ArrayList<Song> songs = new ArrayList<Song>();
 
         try {
             songs = billboard.fetchSongList();

@@ -55,10 +55,10 @@ public class Song {
             URL url = new URL(this.imageURL);
             img = new ImageIcon(ImageIO.read(url));
             Image image = img.getImage();
-            Image newimg = image.getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            img = new ImageIcon(newimg);
-
+            Image newImg = image.getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            img = new ImageIcon(newImg);
             return img;
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
